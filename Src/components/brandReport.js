@@ -20,18 +20,19 @@ export default function BrandReport(props) {
                     if (isFind >= 0) {
                         let oldData = temp[isFind]
                         let profit = item.dealPrice - item.capitalPrice
-                        let newData = [item.brand, oldData[1] + item.quantity, oldData[2] + profit]
+                        let newData = [item.brand, oldData[1] + item.quantity, oldData[2] + profit, oldData[3] + item.dealPrice]
                         temp[isFind] = newData
                     } else {
                         temp.push([
                             item.brand,
                             item.quantity,
                             item.dealPrice - item.capitalPrice,
+                            item.dealPrice
                         ])
                     }
                 })
             })
-            temp.sort((a, b) => a[2] < b[2])
+            temp.sort((a, b) => b[2] - a[2])
             setReportData(temp)
         }
     }, [startDate, endDate])
@@ -39,9 +40,9 @@ export default function BrandReport(props) {
 
 
     const headerData = [
-        "Merek", "Quantity", "Keuntungan"
+        "Merek", "Quantity", "Keuntungan", "Total Penjualan"
     ]
-    const widthArr = [100, 100, 100, 100, 200, 150, 100, 180, 200, 200, 200]
+    const widthArr = [120, 100, 120, 120,]
 
     console.log(reportData)
 

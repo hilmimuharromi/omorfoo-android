@@ -77,7 +77,7 @@ const AddProduct = ({ navigation, GetProducts, SetEditProduct, dataUser, dataEdi
                 }
             }
         } catch (e) {
-            console.log('data error', e)
+            console.log('data error', JSON.stringify(e))
             let data = e.response.data
             if (data) {
                 return showToast(data.message)
@@ -110,6 +110,7 @@ const AddProduct = ({ navigation, GetProducts, SetEditProduct, dataUser, dataEdi
                         </View>
                         <View style={styles.layoutRow}>
                             <FloatingLabelInput
+                                disabled={true}
                                 label="Kode Produk"
                                 value={productCode}
                                 containerStyles={styles.layoutInput}
@@ -120,6 +121,10 @@ const AddProduct = ({ navigation, GetProducts, SetEditProduct, dataUser, dataEdi
                                     paddingHorizontal: 10,
                                 }}
                                 onChangeText={(value) => {
+                                    if (editMode && dataUser.role !== 'owner') {
+                                        showToast('hanya bisa input stok')
+                                        return ''
+                                    }
                                     setProductCode(value);
                                 }}
                                 rightComponent={
@@ -128,7 +133,13 @@ const AddProduct = ({ navigation, GetProducts, SetEditProduct, dataUser, dataEdi
                                         size={40} color="#000"
                                         active
                                         type="FontAwesome"
-                                        onPress={() => setViewScan(true)}
+                                        onPress={() => {
+                                            if (editMode && dataUser.role !== 'owner') {
+                                                showToast('hanya bisa input stok')
+                                                return ''
+                                            }
+                                            setViewScan(true)
+                                        }}
                                     />
                                 }
                             />
@@ -146,6 +157,10 @@ const AddProduct = ({ navigation, GetProducts, SetEditProduct, dataUser, dataEdi
                                     paddingHorizontal: 10,
                                 }}
                                 onChangeText={(value) => {
+                                    if (editMode && dataUser.role !== 'owner') {
+                                        showToast('hanya bisa input stok')
+                                        return ''
+                                    }
                                     setName(value);
                                 }}
                             />
@@ -166,6 +181,10 @@ const AddProduct = ({ navigation, GetProducts, SetEditProduct, dataUser, dataEdi
                                     paddingHorizontal: 10,
                                 }}
                                 onChangeText={(value) => {
+                                    if (editMode && dataUser.role !== 'owner') {
+                                        showToast('hanya bisa input stok')
+                                        return ''
+                                    }
 
                                     setCapitalPrice(value);
                                 }}
@@ -190,6 +209,10 @@ const AddProduct = ({ navigation, GetProducts, SetEditProduct, dataUser, dataEdi
                                     paddingHorizontal: 10,
                                 }}
                                 onChangeText={(value) => {
+                                    if (editMode && dataUser.role !== 'owner') {
+                                        showToast('hanya bisa input stok')
+                                        return ''
+                                    }
                                     setPrice(value);
                                 }}
                                 leftComponent={
@@ -248,48 +271,14 @@ const AddProduct = ({ navigation, GetProducts, SetEditProduct, dataUser, dataEdi
                                     paddingHorizontal: 10,
                                 }}
                                 onChangeText={(value) => {
+                                    if (editMode && dataUser.role !== 'owner') {
+                                        showToast('hanya bisa input stok')
+                                        return ''
+                                    }
                                     setBrand(value);
                                 }}
                             />
                         </View>
-
-                        {/* <View style={styles.layoutRowSelect}>
-                            <Text style={{
-                                backgroundColor: '#fff',
-                                paddingHorizontal: 10,
-                                height: 20,
-                                width: 70,
-                                color: '#B89AD3',
-                                position: 'relative',
-                                top: -2,
-                                fontSize: 12,
-                            }}>Kategori</Text>
-                            <RNPickerSelect
-                                value={kategori}
-                                placeholder={{ label: "Pilih Kategori", value: null }}
-                                onValueChange={(value) => setKategori(value)}
-                                style={{
-                                    inputAndroid: {
-                                        backgroundColor: 'transparent',
-                                        color: 'black'
-                                    },
-                                    iconContainer: {
-                                        top: 5,
-                                        right: 15,
-                                    },
-                                    placeholder: {
-                                        color: 'black',
-                                        fontSize: 12,
-                                        fontWeight: 'bold',
-                                    },
-                                }}
-                                items={[
-                                    { label: 'Football', value: 'football' },
-                                    { label: 'Baseball', value: 'baseball' },
-                                    { label: 'Hockey', value: 'hockey' },
-                                ]}
-                            />
-                        </View> */}
                         <View style={styles.layoutRow}>
                             <FloatingLabelInput
                                 label="Jenis"
@@ -302,6 +291,10 @@ const AddProduct = ({ navigation, GetProducts, SetEditProduct, dataUser, dataEdi
                                     paddingHorizontal: 10,
                                 }}
                                 onChangeText={(value) => {
+                                    if (editMode && dataUser.role !== 'owner') {
+                                        showToast('hanya bisa input stok')
+                                        return ''
+                                    }
                                     setType(value);
                                 }}
                             />

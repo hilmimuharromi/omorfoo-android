@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, FlatList, StatusBar, TouchableOpacity, Dimensions, PermissionsAndroid } from 'react-native';
+import { View, Text, Image, StyleSheet, StatusBar, Dimensions, PermissionsAndroid, ActivityIndicator } from 'react-native';
 import { SetUser, GetTransactions } from "../Stores/actions"
 import { connect } from 'react-redux';
 import { DatePicker, Picker } from 'react-native-woodpicker'
-import { AllReport, BrandReport, TypeTransactionsReport } from '../components'
+import { AllReport, BrandReport, TypeTransactionsReport, Periode } from '../components'
 const windowWidth = Dimensions.get('window').width;
 const wp = (percent) => {
     return windowWidth * percent / 100
@@ -69,12 +69,18 @@ const LaporanScreen = (props) => {
         },
     ]
 
-    const handleText = (pickedDate) => pickedDate
-        ? pickedDate.toDateString()
-        : "No value Selected";
+
 
 
     const ViewMenu = () => {
+        if (loading) {
+            return (
+                <View style={{ flex: 1, padding: 5, flexDirection: "row", justifyContent: "center" }}>
+                    <ActivityIndicator size="small" color="#B89AD3" />
+                </View>
+            )
+        }
+
         if (menuActive.value === "brand") {
             return (
                 <BrandReport data={dataTransactions} startDate={start} endDate={end} />
@@ -98,32 +104,12 @@ const LaporanScreen = (props) => {
             <StatusBar backgroundColor="#fff" barStyle={"dark-content"} />
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <View style={styles.rangeContainer}>
-                        <Text style={styles.headerText}>Periode :</Text>
-                        <DatePicker
-                            value={start}
-                            onDateChange={(date) => setStart(date)}
-                            title="Date Picker"
-                            text={handleText(start)}
-                            isNullable
-                            style={styles.pickerStyle}
-                            androidDisplay="calendar"
-                            backdropAnimation={{ opactity: 0 }}
-                            locale="id-ID"
-                        />
-                        <Text>-</Text>
-                        <DatePicker
-                            value={end}
-                            onDateChange={(date) => setEnd(date)}
-                            title="Date Picker"
-                            text={handleText(end)}
-                            isNullable
-                            style={styles.pickerStyle}
-                            androidDisplay="calendar"
-                            backdropAnimation={{ opactity: 0 }}
-                            locale="id-ID"
-                        />
-                    </View>
+                    <Periode
+                        start={start}
+                        setStart={setStart}
+                        end={end}
+                        setEnd={setEnd}
+                    />
                     <View style={styles.typeContainer}>
                         <Text style={styles.headerText}>Laporan :</Text>
                         <Picker
@@ -165,17 +151,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         borderBottomWidth: 1
     },
-    headerText: {
-        marginHorizontal: 5
-    },
-    rangeContainer: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        width: wp(100),
-        paddingHorizontal: 5,
-        height: 50
-    },
+
     typeContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-start',

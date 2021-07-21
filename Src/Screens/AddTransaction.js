@@ -15,7 +15,8 @@ import axios from "axios"
 import { connect } from 'react-redux';
 import { GetProducts, GetProductsFilter, GetTransactions } from '../Stores/actions'
 import { ListProducts, SearchBar, ScanBarcode, Carts, SelectPicker } from '../components'
-
+import { DatePicker, } from 'react-native-woodpicker'
+import moment from 'moment'
 
 function formatRupiah(angka) {
     if (!angka) return
@@ -36,11 +37,16 @@ const AddTransaction = ({ navigation,
     const [transactionType, setTransactionType] = useState("")
     const [paymentType, setPaymentType] = useState("")
     const [loadingSave, setLoadingSave] = useState(false)
+    const [createdAt, setCreatedAt] = useState(new Date())
 
     let periode = {
         startDate: new Date(),
         endDate: new Date(),
     }
+
+    const handleText = (pickedDate) => pickedDate
+        ? pickedDate.toDateString()
+        : "No value Selected";
 
     const showToast = (message) => {
         ToastAndroid.showWithGravity(message, ToastAndroid.SHORT, ToastAndroid.CENTER);
@@ -83,7 +89,8 @@ const AddTransaction = ({ navigation,
         const payload = {
             paymentType,
             transactionType,
-            items
+            items,
+            createdAt: moment(createdAt).format('YYYY-MM-DD HH:mm:ss')
         }
         console.log('items', payload)
 
@@ -148,6 +155,8 @@ const AddTransaction = ({ navigation,
             <View style={styles.container}>
                 <View style={styles.viewSearch}>
                     <SearchBar
+                        scan={true}
+                        placeholder="Cari Produk ..."
                         query={query}
                         setQuery={setQuery}
                         setViewScan={() => {
@@ -232,6 +241,17 @@ const AddTransaction = ({ navigation,
                             </View>
                         </View>
                         <View style={styles.typeTransaction}>
+                            <DatePicker
+                                value={createdAt}
+                                onDateChange={(date) => setCreatedAt(date)}
+                                title="Date Picker"
+                                text={handleText(createdAt)}
+                                isNullable
+                                style={styles.pickerStyle}
+                                androidDisplay="calendar"
+                                backdropAnimation={{ opactity: 0 }}
+                                locale="id-ID"
+                            />
                             <SelectPicker
                                 title={"Tipe Pembayaran"}
                                 value={paymentType}
@@ -401,7 +421,7 @@ const styles = StyleSheet.create({
     bodyModal: {
         width: "100%",
         padding: 20,
-        height: "60%",
+        height: "55%",
         justifyContent: "flex-start",
         borderEndWidth: 2,
         marginBottom: 5
@@ -422,11 +442,23 @@ const styles = StyleSheet.create({
     footerModal: {
         borderTopWidth: 2,
         marginVertical: 10,
-        paddingTop: 10,
+        paddingVertical: 10,
         width: "80%",
         flexDirection: "row",
         justifyContent: "space-around"
-    }
+    },
+    pickerStyle: {
+        backgroundColor: 'white',
+        borderWidth: 1,
+        borderColor: 'blue',
+        borderRadius: 5,
+        alignItems: 'center',
+        paddingHorizontal: 4,
+        paddingVertical: 8,
+        marginHorizontal: 5,
+        marginVertical: 8,
+        height: 40,
+    },
 
 })
 

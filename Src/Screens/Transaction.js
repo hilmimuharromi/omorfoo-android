@@ -1,19 +1,23 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, TouchableOpacity, View, Text, RefreshControl, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { GetTransactions } from "../Stores/actions"
 import { connect } from 'react-redux';
-import { ListTransactions } from '../components'
+import { ListTransactions, Periode } from '../components'
 const primaryColor = "#B89AD3"
 const TransactionScreen = ({ navigation, dataTransactions, loading, GetTransactions, dataUser }) => {
+
+    const [start, setStart] = useState(new Date())
+    const [end, setEnd] = useState(new Date())
+
     let payload = {
-        startDate: new Date(),
-        endDate: new Date(),
+        startDate: start,
+        endDate: end,
     }
 
     useEffect(() => {
         GetTransactions(payload, dataUser)
-    }, [])
+    }, [start, end])
 
     const ViewListTransactions = () => {
 
@@ -45,7 +49,13 @@ const TransactionScreen = ({ navigation, dataTransactions, loading, GetTransacti
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.headerText}>Transaksi Hari ini</Text>
+                {/* <Periode
+                    start={start}
+                    setStart={setStart}
+                    end={end}
+                    setEnd={setEnd}
+                /> */}
+                <Text>Transaksi Hari Ini</Text>
             </View>
             <ViewListTransactions />
 

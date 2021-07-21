@@ -10,7 +10,8 @@ import {
     UserScreen,
     TransactionScreen,
     AddTransactionScreen,
-    ReportScreen
+    ReportScreen,
+    ListUsers
 } from '../Screens'
 const HomeStack = createStackNavigator();
 const Stack = createStackNavigator();
@@ -31,6 +32,7 @@ const Routes = (props) => {
                     <Stack.Screen name="Transaction" component={TransactionScreen} />
                     <Stack.Screen name="AddTransaction" component={AddTransactionScreen} />
                     <Stack.Screen name="Report" component={ReportScreen} />
+                    <Stack.Screen name="ListUsers" component={ListUsers} />
 
                 </>
                 :

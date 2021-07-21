@@ -63,6 +63,8 @@ const ProductScreen = (props) => {
             <View style={styles.container}>
                 <View style={styles.viewSearch}>
                     <SearchBar
+                        placeholder="Cari nama atau kode produk"
+                        scan={true}
                         query={query}
                         setQuery={setQuery}
                         setViewScan={setViewScan} />

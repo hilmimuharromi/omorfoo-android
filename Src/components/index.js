@@ -7,6 +7,9 @@ import ListTransactions from './listTransactions'
 import AllReport from './allReport'
 import BrandReport from './brandReport'
 import TypeTransactionsReport from './typeTransactionsReport'
+import AddUser from './addUser'
+import ListUsers from './listUsers'
+import Periode from './periode'
 
 export {
     ScanBarcode,
@@ -14,5 +17,5 @@ export {
     SearchBar, Carts,
     SelectPicker,
     ListTransactions,
-    AllReport, BrandReport, TypeTransactionsReport
+    AllReport, BrandReport, TypeTransactionsReport, ListUsers, AddUser, Periode
 }

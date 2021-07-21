@@ -1,36 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, } from 'react';
 import {
-    SafeAreaView,
     StyleSheet,
-    ScrollView,
     View,
     Text,
-    StatusBar,
-    FlatList,
     TouchableOpacity,
-    TextInput, Image
+    TextInput,
 } from 'react-native';
-import ScanBarcode from './scanBarcode'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function Searchbar({ query, setQuery, setViewScan, style }) {
-
-    // const [query, setQuery] = useState();
+export default function Searchbar({ query, setQuery, setViewScan, style, scan, placeholder }) {
     const [error, setError] = useState()
     return (
         <>
             <View style={[styles.container, style]}>
                 <View style={styles.searchContainer}>
-                    {/* <View style={styles.vwSearch}> */}
-                    {/* <Icon name='search'
-                        size={20} color="#000"
-                        active
-                        type="FontAwesome" /> */}
-                    {/* </View> */}
-
                     <TextInput
                         value={query}
-                        placeholder="Cari nama atau kode produk"
+                        placeholder={placeholder}
                         style={styles.textInput}
                         onChangeText={(text) => {
                             setQuery(text)
@@ -46,7 +32,7 @@ export default function Searchbar({ query, setQuery, setViewScan, style }) {
                                     active
                                     type="FontAwesome" />
                             </TouchableOpacity>
-                            : <TouchableOpacity
+                            : scan && <TouchableOpacity
                                 onPress={() => {
                                     setViewScan(true)
                                 }}
